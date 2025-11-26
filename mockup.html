@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Top-up Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: #f8f9fa;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .time {
+            color: #000;
+        }
+
+        .indicators {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            color: #000;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .content {
+            padding: 24px;
+            overflow-y: auto;
+            height: calc(100% - 160px);
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .phone-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .operator-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .amount-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .amount-button {
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .amount-button:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .amount-button.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .custom-amount {
+            display: none;
+        }
+
+        .custom-amount.active {
+            display: block;
+        }
+
+        .payment-methods {
+            margin-bottom: 24px;
+        }
+
+        .payment-card {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-card:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .payment-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            margin-right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .card-info {
+            flex: 1;
+        }
+
+        .card-number {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .card-balance {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .payment-card.selected .radio::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 24px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-screen {
+            display: none;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background: #fee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px auto 24px;
+            font-size: 40px;
+        }
+
+        .error-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #dc3545;
+            margin-bottom: 12px;
+        }
+
+        .error-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .success-screen {
+            display: none;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px auto 24px;
+            font-size: 40px;
+        }
+
+        .success-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 12px;
+        }
+
+        .receipt {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            text-align: left;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 18px;
+            padding-top: 16px;
+        }
+
+        .receipt-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .receipt-value {
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .transaction-id {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #667eea;
+            margin-top: 16px;
+        }
+
+        .screen-content {
+            display: none;
+        }
+
+        .screen-content.active {
+            display: block;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            background: rgba(0,0,0,0.8);
+            padding: 12px 24px;
+            border-radius: 30px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-btn.active {
+            background: white;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="screen">
+            <!-- Screen 1: Main Top-up -->
+            <div class="screen-content active" id="screen1">
+                <div class="status-bar">
+                    <span class="time">9:41</span>
+                    <div class="indicators">
+                        <span>📶</span>
+                        <span>📡</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <span class="back-button">←</span>
+                    <h1>Mobile Top-up</h1>
+                </div>
+
+                <div class="content">
+                    <div class="input-group">
+                        <label class="label">Phone Number</label>
+                        <input type="tel" class="phone-input" placeholder="+380 (67) 123-45-67" value="+380 (67) 123-45-67">
+                        <span class="operator-badge">Vodafone</span>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="label">Top-up Amount</label>
+                        <div class="amount-tabs">
+                            <div class="tab active" onclick="showPreset()">Preset</div>
+                            <div class="tab" onclick="showCustom()">Custom</div>
+                        </div>
+                        
+                        <div class="amount-preset" id="presetAmount">
+                            <div class="amount-grid">
+                                <button class="amount-button">$10</button>
+                                <button class="amount-button selected">$25</button>
+                                <button class="amount-button">$50</button>
+                                <button class="amount-button">$75</button>
+                                <button class="amount-button">$100</button>
+                                <button class="amount-button">$150</button>
+                            </div>
+                        </div>
+
+                        <div class="custom-amount" id="customAmount">
+                            <input type="number" class="phone-input" placeholder="Enter amount" value="">
+                        </div>
+                    </div>
+
+                    <div class="payment-methods">
+                        <label class="label">Payment Method</label>
+                        <div class="payment-card selected">
+                            <div class="card-icon">VISA</div>
+                            <div class="card-info">
+                                <div class="card-number">**** **** **** 4532</div>
+                                <div class="card-balance">Balance: $1,250.00</div>
+                            </div>
+                            <div class="radio"></div>
+                        </div>
+                        <div class="payment-card">
+                            <div class="card-icon">MC</div>
+                            <div class="card-info">
+                                <div class="card-number">**** **** **** 8765</div>
+                                <div class="card-balance">Balance: $15.00</div>
+                            </div>
+                            <div class="radio"></div>
+                        </div>
+                    </div>
+
+                    <button class="button" onclick="showScreen(2)">Continue to Payment</button>
+                </div>
+            </div>
+
+            <!-- Screen 2: Insufficient Funds Error -->
+            <div class="screen-content" id="screen2">
+                <div class="status-bar">
+                    <span class="time">9:41</span>
+                    <div class="indicators">
+                        <span>📶</span>
+                        <span>📡</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <span class="back-button" onclick="showScreen(1)">←</span>
+                    <h1>Payment Failed</h1>
+                </div>
+
+                <div class="error-screen" style="display: block;">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-title">Insufficient Funds</div>
+                    <div class="error-message">
+                        Your selected payment method doesn't have enough balance to complete this transaction.
+                        <br><br>
+                        <strong>Required:</strong> $25.00<br>
+                        <strong>Available:</strong> $15.00
+                    </div>
+
+                    <div class="payment-methods">
+                        <label class="label">Select Another Payment Method</label>
+                        <div class="payment-card">
+                            <div class="card-icon">VISA</div>
+                            <div class="card-info">
+                                <div class="card-number">**** **** **** 4532</div>
+                                <div class="card-balance">Balance: $1,250.00</div>
+                            </div>
+                            <div class="radio"></div>
+                        </div>
+                        <div class="payment-card selected">
+                            <div class="card-icon">MC</div>
+                            <div class="card-info">
+                                <div class="card-number">**** **** **** 8765</div>
+                                <div class="card-balance">Balance: $15.00 ⚠️</div>
+                            </div>
+                            <div class="radio"></div>
+                        </div>
+                        <div class="payment-card">
+                            <div class="card-icon">AMEX</div>
+                            <div class="card-info">
+                                <div class="card-number">**** ****** *1008</div>
+                                <div class="card-balance">Balance: $3,450.00</div>
+                            </div>
+                            <div class="radio"></div>
+                        </div>
+                    </div>
+
+                    <button class="button" onclick="showScreen(3)">Retry Payment</button>
+                    <button class="button" style="background: white; color: #667eea; border: 2px solid #667eea; margin-top: 12px;" onclick="showScreen(1)">Change Amount</button>
+                </div>
+            </div>
+
+            <!-- Screen 3: Success Receipt -->
+            <div class="screen-content" id="screen3">
+                <div class="status-bar">
+                    <span class="time">9:41</span>
+                    <div class="indicators">
+                        <span>📶</span>
+                        <span>📡</span>
+                        <span>🔋</span>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <h1>Transaction Receipt</h1>
+                </div>
+
+                <div class="success-screen" style="display: block;">
+                    <div class="success-icon">✓</div>
+                    <div class="success-title">Top-up Successful!</div>
+
+                    <div class="receipt">
+                        <div class="receipt-row">
+                            <span class="receipt-label">Phone Number</span>
+                            <span class="receipt-value">+380 (67) 123-45-67</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Operator</span>
+                            <span class="receipt-value">Vodafone</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Top-up Amount</span>
+                            <span class="receipt-value">$25.00</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Service Fee</span>
+                            <span class="receipt-value">$0.00</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Payment Method</span>
+                            <span class="receipt-value">VISA ****4532</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Date & Time</span>
+                            <span class="receipt-value">Oct 15, 2024 14:32</span>
+                        </div>
+                        <div class="receipt-row">
+                            <span class="receipt-label">Total Amount</span>
+                            <span class="receipt-value">$25.00</span>
+                        </div>
+                        
+                        <div class="transaction-id">
+                            Transaction ID: TXN-2024101514320001
+                        </div>
+                    </div>
+
+                    <button class="button">Download Receipt</button>
+                    <button class="button" style="background: white; color: #667eea; border: 2px solid #667eea; margin-top: 12px;" onclick="showScreen(1)">New Top-up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn active" onclick="showScreen(1)">Screen 1</button>
+        <button class="nav-btn" onclick="showScreen(2)">Screen 2</button>
+        <button class="nav-btn" onclick="showScreen(3)">Screen 3</button>
+    </div>
+
+    <script>
+        function showScreen(screenNum) {
+            document.querySelectorAll('.screen-content').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            document.getElementById('screen' + screenNum).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index + 1 === screenNum) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function showPreset() {
+            document.getElementById('presetAmount').style.display = 'block';
+            document.getElementById('customAmount').classList.remove('active');
+            document.querySelectorAll('.tab')[0].classList.add('active');
+            document.querySelectorAll('.tab')[1].classList.remove('active');
+        }
+
+        function showCustom() {
+            document.getElementById('presetAmount').style.display = 'none';
+            document.getElementById('customAmount').classList.add('active');
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            document.querySelectorAll('.tab')[0].classList.remove('active');
+        }
+
+        document.querySelectorAll('.amount-button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.amount-button').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.payment-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const parent = this.closest('.payment-methods');
+                parent.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
